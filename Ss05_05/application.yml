@@ -1,0 +1,43 @@
+server:
+  port: 8080
+
+spring:
+  application:
+    name: api-gateway
+  cloud:
+    gateway:
+      routes:
+        # ====================================================================
+        # ROUTE 1: SEARCH SERVICE V1 (Phiên bản ổn định - Chiếm 80% lưu lượng)
+        # ====================================================================
+        - id: search-service-v1-route
+          uri: lb://search-service-v1
+          predicates:
+            - Path=/api/search/**
+            - Weight=SearchGroup, 8
+
+        # ====================================================================
+        # ROUTE 2: SEARCH SERVICE V2 (Phiên bản thử nghiệm - Chiếm 20% lưu lượng)
+        # ====================================================================
+        - id: search-service-v2-route
+          uri: lb://search-service-v2
+          predicates:
+            - Path=/api/search/**
+            - Weight=SearchGroup, 2
+
+# Cấu hình Eureka Client để API Gateway định tuyến động qua Service Registry
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka/
+    register-with-eureka: true
+    fetch-registry: true
+  instance:
+    prefer-ip-address: true
+
+# Cấu hình log TRACE/DEBUG để quan sát việc tính toán trọng số Weight Predicate
+logging:
+  level:
+    org.springframework.cloud.gateway: TRACE
+    org.springframework.cloud.gateway.handler.predicate.WeightRoutePredicateFactory: DEBUG
+    org.springframework.cloud.loadbalancer: DEBUG

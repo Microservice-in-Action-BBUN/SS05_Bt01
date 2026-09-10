@@ -1,0 +1,27 @@
+### ==============================================================================
+### TEST REQUESTS: VIETMART SEARCH SERVICE A/B TESTING
+### ==============================================================================
+### Gateway Base URL: http://localhost:8080
+
+### 1. Gọi thử nghiệm API tìm kiếm qua API Gateway
+### Kỳ vọng: ~80% trả về 'V1', ~20% trả về 'V2'
+GET http://localhost:8080/api/search?keyword=dien_thoai_samsung
+Accept: text/plain
+
+###
+
+### 2. Gọi API tìm kiếm chi tiết trả về JSON
+GET http://localhost:8080/api/search/detail?keyword=iphone_15
+Accept: application/json
+
+###
+
+### 3. Kiểm tra trực tiếp instance V1 (Port 8081)
+GET http://localhost:8081/api/search
+Accept: text/plain
+
+###
+
+### 4. Kiểm tra trực tiếp instance V2 (Port 8082)
+GET http://localhost:8082/api/search
+Accept: text/plain

@@ -1,0 +1,37 @@
+server:
+  port: 8080
+
+spring:
+  application:
+    name: api-gateway
+  cloud:
+    gateway:
+      routes:
+        # Route 1: Định tuyến và cân bằng tải tới product-service (Đã sửa lỗi http:// -> lb://)
+        - id: product-service-route
+          uri: lb://product-service
+          predicates:
+            - Path=/api/products/**
+
+        # Route 2: Định tuyến và cân bằng tải tới voucher-service (Bổ sung mới)
+        - id: voucher-service-route
+          uri: lb://voucher-service
+          predicates:
+            - Path=/api/vouchers/**
+
+# Cấu hình Eureka Client để API Gateway tìm kiếm và đồng bộ danh bạ Service Registry
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka/
+    register-with-eureka: true
+    fetch-registry: true
+  instance:
+    prefer-ip-address: true
+
+# Bật log TRACE/DEBUG để quan sát rõ luồng định tuyến và cân bằng tải của Gateway
+logging:
+  level:
+    org.springframework.cloud.gateway: TRACE
+    org.springframework.cloud.loadbalancer: DEBUG
+    reactor.netty.http.client: DEBUG

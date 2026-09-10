@@ -1,0 +1,45 @@
+### ==============================================================================
+### TEST REQUESTS: VIETMART - KIỂM CHỨNG RANDOM LOADBALANCER (10 REQUESTS)
+### ==============================================================================
+### Gateway: http://localhost:8080
+### Product Service Instances chạy tại Port 8081 và 8082
+
+### Request 1
+GET http://localhost:8080/api/products/1
+Accept: application/json
+
+### Request 2
+GET http://localhost:8080/api/products/1
+Accept: application/json
+
+### Request 3
+GET http://localhost:8080/api/products/1
+Accept: application/json
+
+### Request 4
+GET http://localhost:8080/api/products/1
+Accept: application/json
+
+### Request 5
+GET http://localhost:8080/api/products/1
+Accept: application/json
+
+### Request 6
+GET http://localhost:8080/api/products/1
+Accept: application/json
+
+### Request 7
+GET http://localhost:8080/api/products/1
+Accept: application/json
+
+### Request 8
+GET http://localhost:8080/api/products/1
+Accept: application/json
+
+### Request 9
+GET http://localhost:8080/api/products/1
+Accept: application/json
+
+### Request 10
+GET http://localhost:8080/api/products/1
+Accept: application/json

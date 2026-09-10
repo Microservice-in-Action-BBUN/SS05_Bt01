@@ -1,0 +1,31 @@
+### ==============================================================================
+### TEST REQUESTS: VIETMART API GATEWAY - ORDER SERVICE ROUTING
+### ==============================================================================
+### Gateway Base URL: http://localhost:8080
+### Eureka Dashboard: http://localhost:8761
+
+### 1. Kiểm tra danh sách Service đã đăng ký trên Eureka Server
+### Kỳ vọng: Thấy 'ORDER-SERVICE' trạng thái UP (không có 'ORDERS-SERVICE')
+GET http://localhost:8761/eureka/apps
+Accept: application/json
+
+###
+
+### 2. Test Route Order Service - Lấy danh sách đơn hàng
+### Kỳ vọng: Gateway khớp route 'order-service-route' -> lb://order-service -> HTTP 200 OK
+GET http://localhost:8080/api/orders
+Accept: application/json
+
+###
+
+### 3. Test Route Order Service - Lấy chi tiết đơn hàng theo mã đơn
+### Kỳ vọng: Gateway định tuyến thành công đến order-service -> HTTP 200 OK
+GET http://localhost:8080/api/orders/ORD-2026-001
+Accept: application/json
+
+###
+
+### 4. Test trường hợp gọi sai prefix / route không tồn tại
+### Kỳ vọng: Gateway trả về HTTP 404 Not Found
+GET http://localhost:8080/api/non-existing-orders
+Accept: application/json

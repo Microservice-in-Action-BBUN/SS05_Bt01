@@ -1,0 +1,30 @@
+### ==============================================================================
+### TEST REQUESTS: VIETMART API GATEWAY ROUTING
+### ==============================================================================
+### Gateway Base URL: http://localhost:8080
+### Eureka Dashboard: http://localhost:8761
+
+### 1. Test Eureka Registry Status (Kiểm tra trạng thái Service Discovery)
+GET http://localhost:8761/eureka/apps
+Accept: application/json
+
+###
+
+### 2. Test Product Service Route (Lấy chi tiết sản phẩm ID 1 qua API Gateway)
+### Kỳ vọng: Gateway khớp route 'product-service-route' -> LoadBalancer chọn product-service instance -> HTTP 200
+GET http://localhost:8080/api/products/1
+Accept: application/json
+
+###
+
+### 3. Test Voucher Service Route (Tra cứu mã giảm giá summer2026 qua API Gateway)
+### Kỳ vọng: Gateway khớp route 'voucher-service-route' -> LoadBalancer chọn voucher-service instance -> HTTP 200
+GET http://localhost:8080/api/vouchers/summer2026
+Accept: application/json
+
+###
+
+### 4. Test Route không tồn tại (Kiểm tra hành vi khi predicate không khớp)
+### Kỳ vọng: Gateway không tìm thấy route khớp -> Trả về HTTP 404 Not Found
+GET http://localhost:8080/api/unknown-endpoint
+Accept: application/json
